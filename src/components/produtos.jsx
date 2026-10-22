@@ -4,58 +4,59 @@ function ListaDeProdutos() {
   const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products")
+    fetch("https://rickandmortyapi.com/api/character")
       .then((resposta) => resposta.json())
-      .then((data) => setProdutos(data));
+      // CORREÇÃO: Acessando .results onde a lista de personagens realmente está
+      .then((data) => setProdutos(data.results || [])); 
   }, []);
 
   return (
     <div>
-      <ul style={{ diplay: "flex", listStyle: "none", flexwrap: "wrap" }}>
+      {/* CORREÇÃO: display corrigido e flexWrap em CamelCase */}
+      <ul style={{ display: "flex", listStyle: "none", flexWrap: "wrap", padding: 0 }}>
         {produtos.map((produto) => (
           <li key={produto.id}>
             <div
               style={{
                 background: "grey",
                 color: "white",
-                padding: "0 5px",
+                padding: "15px 5px",
                 margin: "10px",
                 width: "250px",
-                diplay: "flex",
+                display: "flex", // CORREÇÃO: diplay -> display
                 flexDirection: "column",
                 alignItems: "center",
                 borderRadius: "15px",
               }}
             >
-              {/* <img
-              src={produto.images}
-              alt="imagem-do-produto"
-              height="100%"
-              width="55%"
-              style={{
-                background: "grey",
-                borderRadius: "15px",
-                padding: "25px",
-              }}
-            /> */}
-
-              <div>
+              {/* CORREÇÃO: Utilizando a propriedade correta 'image' da API */}
+              <img
+                src={produto.image} 
+                alt={produto.name}
+                style={{
+                  width: "150px",
+                  height: "150px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+              
+              <div style={{ textAlign: "center", marginTop: "10px" }}>
                 <h2
                   style={{
-                    position: "relative",
-                    bottom: "100px",
-                    background: "grey",
+                    background: "lightgrey",
                     color: "black",
-                    padding: "25px, 3px",
-                    borderRadius: "15px",
+                    padding: "5px 10px",
+                    borderRadius: "10px",
+                    fontSize: "1.2rem",
                   }}
                 >
-                  Oferta do Dia
+                  {produto.name}
                 </h2>
-                {/* <p>{produto.description}</p> */}
-                <p>
-                  <strong>Preço</strong> R${produto.price}
-                </p>
+                
+                {/* CORREÇÃO: Substituído campos fictícios por dados reais */}
+                <p><strong>Espécie:</strong> {produto.species}</p>
+                <p><strong>Status:</strong> {produto.status}</p>
               </div>
             </div>
           </li>
